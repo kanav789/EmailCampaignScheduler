@@ -1,28 +1,41 @@
 import cron from "node-cron";
-import CampaignModel from "../../models/CampaignModel";
+import CampaignModel from "../../models/CampaignModel.js";
+import { sendEmail } from "../Nodemailer.js";
 
 cron.schedule("* * * * *", async () => {
   try {
-    const date = new Date();
+    const date = new Date(); // ✅ Full Date object
+
+    console.log("⏰ Checking for campaigns to send at", date.toLocaleString());
+
     const campaigns = await CampaignModel.find({
-      status: "Pending",
+      status: "pending",
       scheduledTime: { $lte: date },
     });
+
+    if (!campaigns || campaigns.length === 0) {
+      console.log("✅ No campaigns to send at this time.");
+      return;
+    }
+
     for (const campaign of campaigns) {
-      // Assuming sendEmail is a function that sends the email
-      const success = await sendEmail({
-        to: campaign.recipient,
-        subject: campaign.subject,
-        html: campaign.content,
-      });
-      if (!success) {
-        allSent = false;
+      let allSent = true;
+
+      for (const recipient of campaign.recipients) {
+        const sent = await sendEmail({
+          to: recipient,
+          subject: campaign.title,
+          html: campaign.message,
+        });
+
+        if (!sent) allSent = false;
       }
 
       campaign.status = allSent ? "sent" : "failed";
+
       await campaign.save();
     }
   } catch (error) {
-    console.log("Internal Server Error:", error);
+    console.error("❌ Internal Server Error:", error);
   }
 });

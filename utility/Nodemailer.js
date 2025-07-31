@@ -1,19 +1,22 @@
 import nodemailer from "nodemailer";
-
+import dotenv from "dotenv";
+dotenv.config();
 const transporter = nodemailer.createTransport({
+  service: "gmail",
+
   host: process.env.SMTP_HOST,
   port: process.env.SMTP_PORT,
   secure: false, // true for 465, false for 587
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    user: process.env.Email_User,
+    pass: process.env.Email_Password,
   },
 });
 
 export const sendEmail = async ({ to, subject, html }) => {
   try {
     await transporter.sendMail({
-      from: `"Email Campaign Scheduler" <${process.env.SMTP_USER}>`,
+      from: `"Email Campaign Scheduler" <${process.env.Email_User}>`,
       to,
       subject,
       html,
