@@ -37,3 +37,18 @@ export const postCreateCampaign = async (req, res) => {
     return res.status(500).send("Internal server error");
   }
 };
+
+
+export const getCampaign = async (req, res) => {
+  try {
+    const campaign = await CampaignModel.find();
+    if (!campaign) {
+      return res.status(404).send("Campaign not found");
+    }
+    res.render("campaign", { campaign });
+    return;
+  } catch (error) {
+    console.error("Error fetching campaign:", error);
+    return res.status(500).send("Internal server error");
+  }
+};
