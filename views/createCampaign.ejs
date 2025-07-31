@@ -1,0 +1,32 @@
+<!-- views/create.ejs -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Campaign</title>
+  </head>
+  <body>
+    <h1>Create a New Email Campaign</h1>
+    <form action="/createCampaign" method="POST">
+      <input
+        type="text"
+        name="title"
+        placeholder="Campaign Title"
+        required
+      /><br />
+      <textarea
+        name="message"
+        placeholder="Message (HTML or plain text)"
+        required
+      ></textarea
+      ><br />
+      <input
+        type="text"
+        name="recipients"
+        placeholder="Recipients (comma separated)"
+        required
+      /><br />
+      <input type="datetime-local" name="scheduledTime" required /><br />
+      <button type="submit">Schedule Campaign</button>
+    </form>
+  </body>
+</html>
