@@ -1,32 +1,139 @@
-<!-- views/create.ejs -->
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Create Campaign</title>
-  </head>
-  <body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create Campaign</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Manrope:wght@200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <style>
+ 
+
+    body {
+   font-family: "Poppins", sans-serif;
+      background: #fafafa;
+      color: #222;
+      margin: 0;
+      padding: 40px 12px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    main {
+      background: #fff;
+      max-width: 480px;
+      width: 100%;
+      padding: 30px 28px;
+      box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+      border-radius: 8px;
+    }
+    h1 {
+      margin-top: 0;
+      margin-bottom: 28px;
+      font-weight: 700;
+      font-size: 1.9rem;
+      color: #1565c0;
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    input[type="text"],
+    textarea,
+    input[type="datetime-local"] {
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 12px 14px;
+      border-radius: 6px;
+      border: 1.5px solid #ccc;
+      transition: border-color 0.25s ease;
+      resize: vertical;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    input[type="text"]:focus,
+    textarea:focus,
+    input[type="datetime-local"]:focus {
+      outline: none;
+      border-color: #1565c0;
+      box-shadow: 0 0 8px rgba(21, 101, 192, 0.3);
+    }
+    textarea {
+      min-height: 120px;
+      font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+    }
+    button {
+      background-color: #1565c0;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      padding: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover,
+    button:focus {
+      background-color: #0d3a75;
+      outline: none;
+    }
+    /* Responsive tweaks */
+    @media (max-width: 512px) {
+      main {
+        margin: 0 12px;
+        padding: 25px 20px;
+      }
+      h1 {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+  
+ 
+
     <h1>Create a New Email Campaign</h1>
-    <form action="/createCampaign" method="POST">
+    <form action="/createCampaign" method="POST" novalidate>
       <input
         type="text"
         name="title"
         placeholder="Campaign Title"
         required
-      /><br />
+        aria-label="Campaign Title"
+      />
       <textarea
         name="message"
         placeholder="Message (HTML or plain text)"
         required
-      ></textarea
-      ><br />
+        aria-label="Campaign Message"
+      ></textarea>
       <input
         type="text"
         name="recipients"
-        placeholder="Recipients (comma separated)"
+        placeholder="Enter Multiples Recipients (comma separated)"
         required
-      /><br />
-      <input type="datetime-local" name="scheduledTime" required /><br />
+        aria-label="Recipients"
+      />
+      <input
+        type="datetime-local"
+        name="scheduledTime"
+        required
+        aria-label="Scheduled Time"
+      />
       <button type="submit">Schedule Campaign</button>
+
+      <a href="/campaign">View All Campaigns</a>
+
     </form>
-  </body>
+  </main>
+</body>
 </html>
