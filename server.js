@@ -1,16 +1,32 @@
 import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
+import dbConnect from "./database/databaseConnection.js";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 
 dotenv.config();
+dbConnect();
+
+// Recreate __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // creating an express app
 const app = express();
 
-app.use(cors());
+app.set("view engine", "ejs");
+
 app.use(express.json());
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use(express.urlencoded({ extended: true }));
+
+// Use path.join with recreated __dirname
+app.use(express.static(join(__dirname, "public")));
+
+// Routes
+
+import campaignRoutes from "./routes/CampaginRoutes.js";
+
+app.use("/", campaignRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
