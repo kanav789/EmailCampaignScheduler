@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import dbConnect from "./database/databaseConnection.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-
+import "./utility/ScheduleEmail/EmailScheduler.js";
 dotenv.config();
 dbConnect();
 
