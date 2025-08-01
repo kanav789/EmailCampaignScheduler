@@ -7,7 +7,7 @@ export const getCreateCampaign = (req, res) => {
 export const postCreateCampaign = async (req, res) => {
   try {
     const { title, message, recipients, scheduledTime } = req.body;
-
+    console.log(scheduledTime, " scheduledTime");
     if (!title || !message || !recipients || !scheduledTime) {
       return res.status(400).send("All fields are required");
     }
@@ -16,12 +16,11 @@ export const postCreateCampaign = async (req, res) => {
       .split(",")
       .map((email) => email.trim())
       .filter((email) => email);
-
     const newCampaign = new CampaignModel({
       title,
       message,
       recipients: recipientsList,
-      scheduledTime: new Date(scheduledTime),
+      scheduledTime: scheduledTime,
       status: "pending",
     });
 

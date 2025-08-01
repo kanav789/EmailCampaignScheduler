@@ -1,16 +1,17 @@
 import cron from "node-cron";
 import CampaignModel from "../../models/CampaignModel.js";
 import { sendEmail } from "../Nodemailer.js";
-
+import moment from "moment-timezone";
+import { formatDateTime } from "../commonfunction.js";
 cron.schedule("* * * * *", async () => {
   try {
-    const date = new Date(); // ✅ Full Date object
+    const date = moment().tz("Asia/Kolkata");
 
-    console.log("⏰ Checking for campaigns to send at", date.toLocaleString());
-
+    const newDate = formatDateTime(date);
+    console.log("📅Current Date and Time:", newDate);
     const campaigns = await CampaignModel.find({
       status: "pending",
-      scheduledTime: { $lte: date },
+      scheduledTime: { $lte: newDate },
     });
 
     if (!campaigns || campaigns.length === 0) {
@@ -32,7 +33,6 @@ cron.schedule("* * * * *", async () => {
       }
 
       campaign.status = allSent ? "sent" : "failed";
-
       await campaign.save();
     }
   } catch (error) {
